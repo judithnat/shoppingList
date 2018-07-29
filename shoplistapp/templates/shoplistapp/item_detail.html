@@ -1,0 +1,17 @@
+{% extends 'shoplistapp/base.html' %}
+
+{% block content %}
+    
+        <div class ="post">
+            
+                <h2>{{item.item}}: {{item.quantity}}</h2>
+                <p>{{item.urgency}}</p>
+                <p>{{item.category}}</p>
+                <p>{{item.shop}}</p>
+                    <div class="date">
+                    <p>added to list:{{item.entered_date}}</p>
+                    </div>
+            
+    </div>
+        
+{% endblock %}

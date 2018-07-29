@@ -1,0 +1,14 @@
+{% extends 'shoplistapp/base.html' %}
+
+{% block content %}
+    
+        <div class ="post">
+            
+                <h2>{{item.item}}: {{item.quantity}}</h2>
+                <p>{{item.urgency.filter(urgency='UR')}}</p>
+
+
+            
+    </div>
+        
+{% endblock %}
