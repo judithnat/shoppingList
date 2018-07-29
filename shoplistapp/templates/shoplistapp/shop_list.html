@@ -1,7 +1,7 @@
 {% extends 'shoplistapp/base.html' %} #j connects this file to base.html
 
 {% block content %}
-    {% for item in items %}
+    {% for item in object_list %}
         <div class ="post">
             <div>
                 <h2><a href="{% url 'item_detail' pk=item.pk %}">{{item.item}}</a></h2> 
@@ -10,6 +10,7 @@
     {% endfor %}    #j ends for loop
 {% endblock %}
 
+<!--
 #j href links to post detail page
 #j expects URL in shoplistapp/urls.py with name=item_detail
-#j needs a view - item_detail
+#j needs a view - item_detail-->

@@ -4,16 +4,16 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from .models import Shoplistclass #j imports model we created
 from .forms import ListForm
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 
 #views connect models and templates
 
 # Create your views here.
-def shop_list(request): 
-    items = Shoplistclass.objects.all()  #j queryset called items
-    context = {
-        'items':items
-    }
-    return render(request,'shoplistapp/shop_list.html', context)  #shop_list funct puts together template
+class ItemList(ListView):
+    model = Shoplistclass
+    template_name = 'shoplistapp/shop_list.html'
+
 
 def item_detail(request, pk):
     item = get_object_or_404(Shoplistclass, pk=pk)    #j queryset? pk= primary key, way of asking for objects
@@ -30,23 +30,17 @@ def urgency(request, pk):
     }
     return render(request,'shoplistapp/urgency.html', context)
 
-def item_new(request):
-    if request.method == "POST":
-        form = ListForm(request.POST)
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.author = User.objects.all()[0]
-            item.entered_date = timezone.now()
-            item.save()
-            return redirect('item_detail', pk=item.pk)
-    else:
-        form = ListForm()
-        context = {
-        'form':form  
-    }
-    return render(request, 'shoplistapp/item_edit.html', context)  
-    #contect in curly brackets is info to go in template
-                
+ 
+class ItemCreate(CreateView):   
+    model = Shoplistclass
+    fields = ['item','urgency', 'shop', 'quantity', 'category']
+    template_name = 'shoplistapp/item_edit.html'
+    success_url = '/'
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(ItemCreate, self).form_valid(form)
+
 def item_edit(request, pk):
     item = get_object_or_404(Shoplistclass, pk=pk)
     if request.method == "POST":

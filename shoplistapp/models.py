@@ -31,7 +31,7 @@ class Shoplistclass(models.Model):
     shop = models.CharField(max_length=20, choices = SHOPCHOICES, default='SM')
     category = models.CharField(max_length=20, choices = CATEGORYCHOICES, default='FD')
     quantity = models.IntegerField()
-    entered_date = models.DateTimeField(default=timezone.now)
+    entered_date = models.DateTimeField(auto_now_add=True)
     urgency = models.CharField(max_length=20, choices = TIMESCALECHOICES, default='SN')
 
     
